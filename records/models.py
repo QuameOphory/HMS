@@ -10,7 +10,7 @@ def generatePatientID():
     This function generates an ID for a patient record
     '''
     qs = Patient.objects.all().order_by('-CreatedAt')
-    if qs is not None:
+    if qs.count() == 0:
         patientID = 'P000000001'
     else:
         last_id = qs[0].id
@@ -151,10 +151,10 @@ class Patient(models.Model):
     BusinessAddress = models.TextField(_("Business Address"), blank=True, null=True)
     CountryID = models.ForeignKey(Country, verbose_name =  _("Country"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
     ReligionID = models.ForeignKey(Religion, verbose_name =  _("Religion"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
-    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_DEFAULT, default='NONE', blank=True)
+    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
     PatientInsSchemeID = models.ForeignKey(PatientInsScheme, verbose_name = _("Patient Insurance Scheme"), on_delete=models.SET_NULL, null=True, blank=True)
     PatientInsNo = models.CharField(_("Patient Insurance Number"), max_length=255, blank=True)
-    PatientDependentTypeID = models.ForeignKey(DependentType, verbose_name =  _("Dependent"), on_delete=models.SET_DEFAULT, default='SELF', blank=True)
+    PatientDependentTypeID = models.ForeignKey(DependentType, verbose_name =  _("Dependent"), on_delete=models.SET_NULL, default='SELF', blank=True, null=True)
     CreatedAt = models.DateTimeField(auto_now_add=True)
     Status = models.BooleanField(_("Relation Type Status"), default=True)
 
@@ -163,7 +163,7 @@ class Patient(models.Model):
         verbose_name_plural = "Patients"
     
     def __str__(self) -> str:
-        return
+        return f'{self.FirstName}  {self.OtherName}  {self.SurName}'
 
 class PatientRank(models.Model):
     PatientRankName = models.CharField(_("Patient Rank Name"), max_length=255)
