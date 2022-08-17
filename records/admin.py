@@ -3,7 +3,8 @@ from .models import (
     Title, Gender, MaritalStatus, 
     PatientType, Patient, Country, 
     Religion, NextOfKin, IdentificationType,
-    PatientIdentification, RelationType
+    PatientIdentification, RelationType, PatientRank,
+    PatientRankLevel, PatientCategory
 )
 from datetime import timedelta, date
 # Register your models here.
@@ -18,6 +19,9 @@ admin.site.register(NextOfKin)
 admin.site.register(IdentificationType)
 admin.site.register(PatientIdentification)
 admin.site.register(RelationType)
+admin.site.register(PatientRankLevel)
+admin.site.register(PatientRank)
+admin.site.register(PatientCategory)
 
 @admin.display(description='Age')
 def calculate_age(obj):
@@ -32,6 +36,7 @@ class NextOfKinInLine(admin.StackedInline):
 
 class PatientIdentificationInLine(admin.StackedInline):
     model = PatientIdentification
+    extra: int = 1
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):

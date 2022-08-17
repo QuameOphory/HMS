@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 import helpers
+import datetime
 # Create your models here.
 
 LENGTH = 9
@@ -135,7 +136,7 @@ class Religion(models.Model):
         return f'{self.ReligionName}'
 
 class DependentType(models.Model):
-    DependentName = models.CharField(_("Name of Religion"), max_length=255)
+    DependentName = models.CharField(_("Dependent Type"), max_length=255)
     Description = models.TextField(blank=True, null=True)
     Status = models.BooleanField(_("Dependent Type Status"), default=True, editable=False)
 
@@ -167,6 +168,9 @@ class Patient(models.Model):
     MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True) 
     CreatedAt = models.DateTimeField(auto_now_add=True)
     Status = models.BooleanField(_("Patient Status"), default=True, editable=False)
+    PatientRankLevel = models.ForeignKey('PatientRankLevel', verbose_name=_("Patient Rank Level"), on_delete=models.SET_NULL, null=True, default=1, editable=False)
+    PatientRank = models.ForeignKey('PatientRank', verbose_name=_("Patient Level"), on_delete=models.SET_NULL, null=True, default=1, editable=False)
+    PatientCategory = models.ForeignKey('PatientCategory', verbose_name=_("Patient Category"), on_delete=models.SET_NULL, null=True, default=1, editable=False)
 
     class Meta:
         verbose_name = "Patient"
@@ -174,6 +178,21 @@ class Patient(models.Model):
     
     def __str__(self) -> str:
         return f'{self.FirstName}  {self.OtherName}  {self.SurName}'
+
+    def save(self, *args, **kwargs):
+        '''
+        The save function has been overriden to set the patient type
+        '''
+        adult = PatientType.objects.get(id=3)
+        child = PatientType.objects.get(id=2)
+        today = datetime.date.today()
+        
+        age = int(str((today - self.BirthDate) // 360)[0:2])
+        if age < 18:
+            self.PatientTypeID = child
+        else:
+            self.PatientTypeID = adult
+        return super(Patient, self).save(*args, **kwargs)
 
 class PatientRank(models.Model):
     PatientRankName = models.CharField(_("Patient Rank Name"), max_length=255)
@@ -186,6 +205,18 @@ class PatientRank(models.Model):
     
     def __str__(self) -> str:
         return f'{self.PatientRankName}'
+
+class PatientCategory(models.Model):
+    PatientCategoryName = models.CharField(_("Patient Category Name"), max_length=255)
+    Description = models.TextField(blank=True, null=True)
+    Status = models.BooleanField(_("Patient Rank Status"), default=True, editable=False)
+
+    class Meta:
+        verbose_name = "Patient Category"
+        verbose_name_plural = "Patient Categories"
+    
+    def __str__(self) -> str:
+        return f'{self.PatientCategoryName}'
 
 class PatientRankLevel(models.Model):
     PatientRankLevelName = models.CharField(_("Patient Rank Level Name"), max_length=255)
