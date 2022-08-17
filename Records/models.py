@@ -67,10 +67,10 @@ class PatientInsScheme(models.Model):
     PatientInsSchemeID = models.CharField(_("Insurance Scheme ID"), max_length=255)
     PatientInsSchemeName = models.CharField(_("Insurance Scheme Name"), max_length=255)
     Address = models.TextField(_("Address"), blank=True, null=True)
-    City = models.CharField(_("City"), blank=True, null=True)
-    Location = models.CharField(_("Location"), blank=True, null=True)
-    OfficePhone = models.CharField(_("Office Phone"), blank=True, null=True)
-    OfficeFax = models.CharField(_("Office Fax"), blank=True, null=True)
+    City = models.CharField(_("City"), blank=True, null=True, max_length=255)
+    Location = models.CharField(_("Location"), blank=True, null=True, max_length=255)
+    OfficePhone = models.CharField(_("Office Phone"), blank=True, null=True, max_length=255)
+    OfficeFax = models.CharField(_("Office Fax"), blank=True, null=True, max_length=255)
     Description = models.TextField(blank=True, null=True)
     Status = models.BooleanField(_("Relation Type Status"), default=True)
 
@@ -173,7 +173,7 @@ class PatientRankLevel(models.Model):
 
 class PatientUnit(models.Model):
     PatientUnitName = models.CharField(_("Patient Unit"), max_length=255)
-    Description = models(blank=True, null=True)
+    Description = models.TextField(blank=True, null=True)
     Status = models.BooleanField(_("Relation Type Status"), default=True)
 
     class Meta:
@@ -185,7 +185,7 @@ class PatientUnit(models.Model):
 
 class IdentificationType(models.Model):
     IdentificationTypeName = models.CharField(_("Type of Identification"), max_length=255)
-    Description = models(blank=True, null=True)
+    Description = models.TextField(blank=True, null=True)
     Status = models.BooleanField(_("Relation Type Status"), default=True)
 
     class Meta:
@@ -210,7 +210,7 @@ class NextOfKin(models.Model):
     KeyPrefix = models.CharField(_("Key Prefix"), blank=True, null=True, max_length=255)
     PatientRankID = models.ForeignKey(PatientRank, verbose_name =  _("Patient Rank"), on_delete=models.SET_NULL, null=True)
     PatientRankLevelID = models.ForeignKey(PatientRankLevel, verbose_name =  _("Patient Rank Level"), on_delete=models.SET_NULL, null=True)
-    PatientUnitID = models.ForeignKey(PatientUnit, verbose_name =  _("Patient Unit"), on_delete=models.SET_NULL)
+    PatientUnitID = models.ForeignKey(PatientUnit, verbose_name =  _("Patient Unit"), on_delete=models.SET_NULL, null=True)
     ServiceNo = models.CharField(_("Service No."), max_length=255)
     IdentificationTypeID = models.ForeignKey(IdentificationType, verbose_name =  _("ID Type"), on_delete=models.SET_NULL, null=True)
     IdentificationNumber = models.CharField(_("ID Number"), max_length=255)    
