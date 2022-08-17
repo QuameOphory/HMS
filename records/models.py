@@ -18,6 +18,19 @@ def generatePatientID():
         patientID = 'P' + str(new_id).zfill(LENGTH)
     return patientID
 
+def generateNextOfKinID():
+    '''
+    This function generates an ID for a patient record
+    '''
+    qs = NextOfKin.objects.all().order_by('-CreatedAt')
+    if qs.count() == 0:
+        patientID = 'K000000001'
+    else:
+        last_id = qs[0].id
+        new_id = int(last_id) + 1
+        patientID = 'K' + str(new_id).zfill(LENGTH)
+    return patientID
+
 
 class Title(models.Model):
     TitleName = models.CharField(_("Title Name"), max_length=255)
@@ -88,7 +101,7 @@ class PatientInsScheme(models.Model):
     OfficePhone = models.CharField(_("Office Phone"), blank=True, null=True, max_length=255)
     OfficeFax = models.CharField(_("Office Fax"), blank=True, null=True, max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Relation Type Status"), default=True, editable=False)
 
     class Meta:
         verbose_name = "Insurance Scheme"
@@ -100,7 +113,7 @@ class PatientInsScheme(models.Model):
 class Country(models.Model):
     CountryName = models.CharField(_("Country"), max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Country Status"), default=True, editable=False)
 
     class Meta:
         verbose_name = "Country"
@@ -112,7 +125,7 @@ class Country(models.Model):
 class Religion(models.Model):
     ReligionName = models.CharField(_("Name of Religion"), max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Religion Status"), default=True, editable=False)
 
     class Meta:
         verbose_name = "Religion"
@@ -124,7 +137,7 @@ class Religion(models.Model):
 class DependentType(models.Model):
     DependentName = models.CharField(_("Name of Religion"), max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Dependent Type Status"), default=True, editable=False)
 
     class Meta:
         verbose_name = "Dependent Type"
@@ -151,12 +164,9 @@ class Patient(models.Model):
     BusinessAddress = models.TextField(_("Business Address"), blank=True, null=True)
     CountryID = models.ForeignKey(Country, verbose_name =  _("Country"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
     ReligionID = models.ForeignKey(Religion, verbose_name =  _("Religion"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
-    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
-    PatientInsSchemeID = models.ForeignKey(PatientInsScheme, verbose_name = _("Patient Insurance Scheme"), on_delete=models.SET_NULL, null=True, blank=True)
-    PatientInsNo = models.CharField(_("Patient Insurance Number"), max_length=255, blank=True)
-    PatientDependentTypeID = models.ForeignKey(DependentType, verbose_name =  _("Dependent"), on_delete=models.SET_NULL, default='SELF', blank=True, null=True)
+    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True) 
     CreatedAt = models.DateTimeField(auto_now_add=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Patient Status"), default=True, editable=False)
 
     class Meta:
         verbose_name = "Patient"
@@ -168,7 +178,7 @@ class Patient(models.Model):
 class PatientRank(models.Model):
     PatientRankName = models.CharField(_("Patient Rank Name"), max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Patient Rank Status"), default=True, editable=False)
 
     class Meta:
         verbose_name = "Patient Rank"
@@ -180,7 +190,7 @@ class PatientRank(models.Model):
 class PatientRankLevel(models.Model):
     PatientRankLevelName = models.CharField(_("Patient Rank Level Name"), max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Patient Rank Level Status"), default=True)
 
     class Meta:
         verbose_name = "Patient Rank Level"
@@ -192,7 +202,7 @@ class PatientRankLevel(models.Model):
 class PatientUnit(models.Model):
     PatientUnitName = models.CharField(_("Patient Unit"), max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Patient Unit Status"), default=True)
 
     class Meta:
         verbose_name = "Patient Unit"
@@ -204,7 +214,7 @@ class PatientUnit(models.Model):
 class IdentificationType(models.Model):
     IdentificationTypeName = models.CharField(_("Type of Identification"), max_length=255)
     Description = models.TextField(blank=True, null=True)
-    Status = models.BooleanField(_("Relation Type Status"), default=True)
+    Status = models.BooleanField(_("Identification Type Status"), default=True)
 
     class Meta:
         verbose_name = "Identification Type"
@@ -214,25 +224,15 @@ class IdentificationType(models.Model):
         return f'{self.IdentificationTypeName}'
 
 class NextOfKin(models.Model):
-    NextOfKinID = models.CharField(_("Next of Kin ID"), max_length=255, unique=True)
+    NextOfKinID = models.CharField(_("Next of Kin ID"), max_length=255, unique=True, default=generateNextOfKinID)
     PatientID = models.ForeignKey(Patient, verbose_name = _("Patient"),  on_delete=models.CASCADE, db_index=True)
     NextOfKinName = models.CharField(_("Name of Next of Kin"), max_length=255)
-    PatientTypeID = models.ForeignKey(PatientType, verbose_name = _("Patient Category"), on_delete=models.SET_DEFAULT, default=1)
-    RelationTypeID = models.ForeignKey(RelationType, verbose_name = _("Relation with Patient"), on_delete=models.SET_NULL, null=True)
+    RelationTypeID = models.ForeignKey(RelationType, verbose_name = _("Relation To Patient"), on_delete=models.SET_NULL, null=True)
     ContactAddress = models.TextField()
-    DateOfBirth = models.DateField(_("Date of Birth"))
+    DateOfBirth = models.DateField(_("Date of Birth"), blank=True, null=True)
     Email = models.CharField(_("Email Address"), max_length=255, blank=True, null=True)
-    Profession = models.CharField(_("Profession"), max_length=255)
-    CreatedAt = models.DateTimeField(_("Date Created"), auto_now_add=True)
-    EntryDate = models.DateTimeField(_("Entry Date"), auto_now_add=True)
-    KeyPrefix = models.CharField(_("Key Prefix"), blank=True, null=True, max_length=255)
-    PatientRankID = models.ForeignKey(PatientRank, verbose_name =  _("Patient Rank"), on_delete=models.SET_NULL, null=True)
-    PatientRankLevelID = models.ForeignKey(PatientRankLevel, verbose_name =  _("Patient Rank Level"), on_delete=models.SET_NULL, null=True)
-    PatientUnitID = models.ForeignKey(PatientUnit, verbose_name =  _("Patient Unit"), on_delete=models.SET_NULL, null=True)
-    ServiceNo = models.CharField(_("Service No."), max_length=255)
-    IdentificationTypeID = models.ForeignKey(IdentificationType, verbose_name =  _("ID Type"), on_delete=models.SET_NULL, null=True)
-    IdentificationNumber = models.CharField(_("ID Number"), max_length=255)    
-    Status = models.BooleanField(_("Next of Kin Status"), default=True)
+    CreatedAt = models.DateTimeField(_("Date Created"), auto_now_add=True)    
+    Status = models.BooleanField(_("Next of Kin Status"), default=True, editable=False)
 
     class Meta:
         verbose_name = "Next of Kin"
@@ -240,3 +240,20 @@ class NextOfKin(models.Model):
 
     def __str__(self) -> str:
         return f'{self.PatientID} [{self.NextOfKinName}]'
+
+class PatientIdentification(models.Model):
+    PatientID = models.ForeignKey(Patient, verbose_name = _("Patient"), on_delete=models.CASCADE)
+    IdentificationType = models.ForeignKey(IdentificationType, verbose_name = _("Type of Identification"), on_delete=models.SET_NULL, null=True, blank=True)
+    IdentificationNumber = models.CharField(_("ID Number"), max_length=255)
+    IdentificationExpiry = models.DateField(_("Date of Expiry"), blank=True, null=True)
+    IdentificationPictureFront = models.ImageField(_("Front Picture of ID"), upload_to = '', blank=True, null=True)
+    IdentificationPictureBack = models.ImageField(_("Back Picture of ID"), upload_to = '', blank=True, null=True)
+    Description = models.TextField(blank=True, null=True)
+    Status = models.BooleanField(default=True, editable=False)
+
+    class Meta:
+        verbose_name = "Patient Identification"
+        verbose_name_plural = "Patient Identifications"
+
+    def __str__(self) -> str:
+        return f'{self.PatientID} [{self.IdentificationNumber}]'
