@@ -13,7 +13,7 @@ class Title(models.Model):
         verbose_name_plural = "Titles"
     
     def __str__(self) -> str:
-        return f'{self.RelationTypeName}'
+        return f'{self.TitleName}'
 
 class RelationType(models.Model):
     RelationTypeName = models.CharField(_("Relation Type"), max_length=255)
