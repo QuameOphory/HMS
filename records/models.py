@@ -1,7 +1,19 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+import helpers
 # Create your models here.
+
+LENGTH = 9
+
+def generatePatientID():
+    '''
+    This function generates an ID for a patient record
+    '''
+    qs = Patient.objects.order_by('-CreatedAt')
+    last_id = qs[0].id
+    new_id = int(last_id) + 1
+    return str(new_id).zfill(LENGTH)
+
 
 class Title(models.Model):
     TitleName = models.CharField(_("Title Name"), max_length=255)
@@ -117,7 +129,9 @@ class DependentType(models.Model):
     def __str__(self) -> str:
         return f'{self.DependentName}'
 
+
 class Patient(models.Model):
+    PatientID = models.CharField(_("PatientID"), max_length=255, default=generatePatientID, unique=True)
     EmailAddress = models.CharField(_("Email Address"), max_length=255)
     TitleID = models.ForeignKey(Title, verbose_name = _("Title"), on_delete=models.SET_DEFAULT, default='1')
     FirstName = models.CharField(_("First Name"), max_length=255)
