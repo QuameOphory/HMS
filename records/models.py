@@ -6,31 +6,21 @@ import datetime
 
 LENGTH = 9
 
+
+
 def generatePatientID():
     '''
     This function generates an ID for a patient record
     '''
     qs = Patient.objects.all().order_by('-CreatedAt')
-    if qs.count() == 0:
-        patientID = 'P000000001'
-    else:
-        last_id = qs[0].id
-        new_id = int(last_id) + 1
-        patientID = 'P' + str(new_id).zfill(LENGTH)
-    return patientID
+    return helpers.generateID('P', qs)
 
 def generateNextOfKinID():
     '''
     This function generates an ID for a patient record
     '''
     qs = NextOfKin.objects.all().order_by('-CreatedAt')
-    if qs.count() == 0:
-        patientID = 'K000000001'
-    else:
-        last_id = qs[0].id
-        new_id = int(last_id) + 1
-        patientID = 'K' + str(new_id).zfill(LENGTH)
-    return patientID
+    return helpers.generateID('K', qs)
 
 
 class Title(models.Model):
@@ -146,7 +136,6 @@ class DependentType(models.Model):
     
     def __str__(self) -> str:
         return f'{self.DependentName}'
-
 
 class Patient(models.Model):
     PatientID = models.CharField(_("PatientID"), max_length=255, default=generatePatientID, unique=True)
