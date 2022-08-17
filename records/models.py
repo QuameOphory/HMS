@@ -187,7 +187,7 @@ class Patient(models.Model):
         child = PatientType.objects.get(id=2)
         today = datetime.date.today()
         
-        age = int(str((today - self.BirthDate) // 360)[0:2])
+        age = int(str((today - self.BirthDate) // 365)[0:2])
         if age < 18:
             self.PatientTypeID = child
         else:
