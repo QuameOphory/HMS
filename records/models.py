@@ -9,10 +9,14 @@ def generatePatientID():
     '''
     This function generates an ID for a patient record
     '''
-    qs = Patient.objects.order_by('-CreatedAt')
-    last_id = qs[0].id
-    new_id = int(last_id) + 1
-    return str(new_id).zfill(LENGTH)
+    qs = Patient.objects.all().order_by('-CreatedAt')
+    if qs is not None:
+        patientID = 'P000000001'
+    else:
+        last_id = qs[0].id
+        new_id = int(last_id) + 1
+        patientID = 'P' + str(new_id).zfill(LENGTH)
+    return patientID
 
 
 class Title(models.Model):
@@ -136,7 +140,7 @@ class Patient(models.Model):
     TitleID = models.ForeignKey(Title, verbose_name = _("Title"), on_delete=models.SET_DEFAULT, default='1')
     FirstName = models.CharField(_("First Name"), max_length=255)
     SurName = models.CharField(_("Surname"), max_length=255)
-    OtherName = models.CharField(_("Other Name"), max_length=255)
+    OtherName = models.CharField(_("Other Name"), max_length=255, blank=True)
     BirthDate = models.DateField(_("Date of Birth"))
     PatientTypeID = models.ForeignKey(PatientType, verbose_name =  _("Patient Type"), on_delete=models.SET_DEFAULT, default='NONE')
     GenderID = models.ForeignKey(Gender,  verbose_name = _("Gender"), on_delete=models.SET_NULL, null=True)
@@ -145,12 +149,12 @@ class Patient(models.Model):
     ResidencePhone = models.CharField(_("Business Phone"), max_length=255)
     ResidenceAddress = models.TextField(_("Residence Address"))
     BusinessAddress = models.TextField(_("Business Address"), blank=True, null=True)
-    CountryID = models.ForeignKey(Country, verbose_name =  _("Country"), on_delete=models.SET_DEFAULT, default='NONE')
-    ReligionID = models.ForeignKey(Religion, verbose_name =  _("Religion"), on_delete=models.SET_DEFAULT, default='NONE')
-    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_DEFAULT, default='NONE')
-    PatientInsSchemeID = models.ForeignKey(PatientInsScheme, verbose_name = _("Patient Insurance Scheme"), on_delete=models.SET_NULL, null=True)
-    PatientInsNo = models.CharField(_("Patient Insurance Number"), max_length=255)
-    PatientDependentTypeID = models.ForeignKey(DependentType, verbose_name =  _("Dependent"), on_delete=models.SET_DEFAULT, default='SELF')
+    CountryID = models.ForeignKey(Country, verbose_name =  _("Country"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
+    ReligionID = models.ForeignKey(Religion, verbose_name =  _("Religion"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
+    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_DEFAULT, default='NONE', blank=True)
+    PatientInsSchemeID = models.ForeignKey(PatientInsScheme, verbose_name = _("Patient Insurance Scheme"), on_delete=models.SET_NULL, null=True, blank=True)
+    PatientInsNo = models.CharField(_("Patient Insurance Number"), max_length=255, blank=True)
+    PatientDependentTypeID = models.ForeignKey(DependentType, verbose_name =  _("Dependent"), on_delete=models.SET_DEFAULT, default='SELF', blank=True)
     CreatedAt = models.DateTimeField(auto_now_add=True)
     Status = models.BooleanField(_("Relation Type Status"), default=True)
 
