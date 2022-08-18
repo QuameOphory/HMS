@@ -145,21 +145,21 @@ class Patient(models.Model):
     SurName = models.CharField(_("Surname"), max_length=255)
     OtherName = models.CharField(_("Other Name"), max_length=255, blank=True)
     BirthDate = models.DateField(_("Date of Birth"))
-    PatientTypeID = models.ForeignKey(PatientType, verbose_name =  _("Patient Type"), on_delete=models.SET_DEFAULT, default='NONE')
+    PatientTypeID = models.ForeignKey(PatientType, verbose_name =  _("Patient Type"), on_delete=models.SET_DEFAULT, default='1', editable=False)
     GenderID = models.ForeignKey(Gender,  verbose_name = _("Gender"), on_delete=models.SET_NULL, null=True)
     Occupation = models.CharField(_("Occupation"), max_length=255)
     BusinessPhone = models.CharField(_("Business Phone"), max_length=255)
-    ResidencePhone = models.CharField(_("Business Phone"), max_length=255)
+    ResidencePhone = models.CharField(_("Residence Phone"), max_length=255)
     ResidenceAddress = models.TextField(_("Residence Address"))
     BusinessAddress = models.TextField(_("Business Address"), blank=True, null=True)
     CountryID = models.ForeignKey(Country, verbose_name =  _("Country"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
     ReligionID = models.ForeignKey(Religion, verbose_name =  _("Religion"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True)
-    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_NULL, default='NONE', blank=True, null=True) 
+    MaritalStatusID = models.ForeignKey(MaritalStatus, verbose_name =  _("Marital Status"), on_delete=models.SET_NULL, default='1', blank=True, null=True) 
     CreatedAt = models.DateTimeField(auto_now_add=True)
     Status = models.BooleanField(_("Patient Status"), default=True, editable=False)
-    PatientRankLevel = models.ForeignKey('PatientRankLevel', verbose_name=_("Patient Rank Level"), on_delete=models.SET_NULL, null=True, default=1, editable=False)
-    PatientRank = models.ForeignKey('PatientRank', verbose_name=_("Patient Level"), on_delete=models.SET_NULL, null=True, default=1, editable=False)
-    PatientCategory = models.ForeignKey('PatientCategory', verbose_name=_("Patient Category"), on_delete=models.SET_NULL, null=True, default=1, editable=False)
+    PatientRankLevel = models.ForeignKey('PatientRankLevel', verbose_name=_("Patient Rank Level"), on_delete=models.SET_NULL, null=True, blank=True, default=1, editable=False)
+    PatientRank = models.ForeignKey('PatientRank', verbose_name=_("Patient Level"), on_delete=models.SET_NULL, null=True, default=1, blank=True, editable=False)
+    PatientCategory = models.ForeignKey('PatientCategory', verbose_name=_("Patient Category"), on_delete=models.SET_NULL, null=True, default=1, blank=True, editable=False)
 
     class Meta:
         verbose_name = "Patient"
@@ -169,19 +169,16 @@ class Patient(models.Model):
         return f'{self.FirstName}  {self.OtherName}  {self.SurName}'
 
     def save(self, *args, **kwargs):
-        '''
-        The save function has been overriden to set the patient type
-        '''
         adult = PatientType.objects.get(id=3)
         child = PatientType.objects.get(id=2)
-        today = datetime.date.today()
-        
-        age = int(str((today - self.BirthDate) // 365)[0:2])
+        age = helpers.calculateAge(self.BirthDate)
         if age < 18:
             self.PatientTypeID = child
         else:
             self.PatientTypeID = adult
         return super(Patient, self).save(*args, **kwargs)
+
+    
 
 class PatientRank(models.Model):
     PatientRankName = models.CharField(_("Patient Rank Name"), max_length=255)

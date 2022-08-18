@@ -41,7 +41,7 @@ class PatientIdentificationInLine(admin.StackedInline):
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
     date_hierarchy = 'CreatedAt'
-    list_display = ('PatientID', 'FirstName', 'SurName', 'OtherName', 'calculate_age')
+    list_display = ('PatientID', 'FirstName', 'SurName', 'OtherName', 'calculate_age', 'PatientTypeID')
     empty_value_display = ''
     inlines = [
         NextOfKinInLine,

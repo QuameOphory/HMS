@@ -1,0 +1,102 @@
+{% extends 'extras/base.html' %}
+{% block title %}Add Patient{% endblock title %}
+
+{% block content %}
+    {{ form.hidden_fields.errors }}
+    <form method='post'>
+        {% csrf_token %}
+        <div class="form-group">  
+        {{form.PatientID.errors}}
+        {{ form.PatientID.label }} 
+        {{ form.PatientID }}
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4">
+            {{form.TitleID.errors}}
+              {{form.TitleID.label}}
+              {{form.TitleID}}
+          </div>
+          <div class="form-group col-md-4">
+            {{form.GenderID.errors}}
+              {{form.GenderID.label}}
+              {{form.GenderID}}
+          </div>
+          <div class="form-group col-md-4">
+            {{form.MaritalStatusID.errors}}
+              {{form.MaritalStatusID.label}}
+              {{form.MaritalStatusID}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4">
+            {{form.SurName.errors}}
+              {{form.SurName.label}}
+              {{form.SurName}}
+          </div>
+          <div class="form-group col-md-4">
+            {{form.OtherName.errors}}
+              {{form.OtherName.label}}
+              {{form.OtherName}}
+          </div>
+          <div class="form-group col-md-4">
+            {{form.FirstName.errors}}
+            {{form.FirstName.label}}
+            {{form.FirstName}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4">
+              {{form.BirthDate.errors}}
+              {{form.BirthDate.label}}
+              {{form.BirthDate}}
+          </div>
+          <div class="form-group col-md-4">
+            {{form.Occupation.errors}}
+            {{form.Occupation.label}}
+            {{form.Occupation}}
+        </div>
+          <div class="form-group col-md-4">
+              {{form.EmailAddress.errors}}
+              {{form.EmailAddress.label}}
+              {{form.EmailAddress}}
+          </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{form.BusinessPhone.errors}}
+                {{form.BusinessPhone.label}}
+                {{form.BusinessPhone}}
+            </div>
+            <div class="form-group col-md-6">
+                {{form.ResidencePhone.errors}}
+                {{form.ResidencePhone.label}}
+                {{form.ResidencePhone}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{form.BusinessAddress.errors}}
+                {{form.BusinessAddress.label}}
+                {{form.BusinessAddress}}
+            </div>
+            <div class="form-group col-md-6">
+                {{form.ResidenceAddress.errors}}
+                {{form.ResidenceAddress.label}}
+                {{form.ResidenceAddress}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{form.CountryID.errors}}
+                {{form.CountryID.label}}
+                {{form.CountryID}}
+            </div>
+            <div class="form-group col-md-6">
+                {{form.ReligionID.errors}}
+                {{form.ReligionID.label}}
+                {{form.ReligionID}}
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary mb-3" value="Submit">
+    </form>
+    
+{% endblock content %}
