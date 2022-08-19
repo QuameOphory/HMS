@@ -1,0 +1,50 @@
+{% extends 'extras/base.html' %}
+{% block title %} {{patient}} - [{{patient.PatientID}}]{% endblock title %}
+
+{% block content %}
+<h4>{{patient}}</h4>
+
+<table class="table table-borderless">
+    <tbody>
+        <tr>
+            <td style="text-align: right;">First Name:</td>
+            <td style="text-align: left;"><strong>{{patient.FirstName}}</strong></td>
+            
+            {% if patient.OtherName %}
+                <td style="text-align: right;">Other Name:</td>
+                <td style="text-align: left;"><strong>{{patient.OtherName}}</strong></td>
+            {% endif %}
+            <td style="text-align: right;">SurName:</td>
+            <td style="text-align: left;"><strong>{{patient.SurName}}</strong></td>
+            {% if not patient.OtherName %}
+                <td style="text-align: right;">Patient ID:</td>
+                <td style="text-align: left;"><strong>{{patient.PatientID}}</strong></td>
+            {% endif %}
+        </tr>
+        <tr>
+            {% if patient.OtherName %}
+                <td style="text-align: right;">Patient ID:</td>
+                <td style="text-align: left;"><strong>{{patient.PatientID}}</strong></td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td style="text-align: right;">Gender:</td>
+            <td style="text-align: left;"><strong>{{patient.GenderID}}</strong></td>
+            <td style="text-align: right;">Age:</td>
+            <td style="text-align: left;"><strong>{{patient.getAge}}</strong></td>
+            <td style="text-align: right;">Religion:</td>
+            <td style="text-align: left;"><strong>{{patient.ReligionID}}</strong></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Mobile:</td>
+            <td style="text-align: left;"><strong>{{patient.ResidencePhone}}</strong></td>
+            <td style="text-align: right;">Address:</td>
+            <td style="text-align: left;"><strong>{{patient.ResidenceAddress}}</strong></td>
+            <td style="text-align: right;">Occupation:</td>
+            <td style="text-align: left;"><strong>{{patient.Occupation}}</strong></td>
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock content %}

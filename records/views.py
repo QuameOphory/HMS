@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from .models import Patient, PatientType
-from django.views.generic import CreateView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    DetailView,
+)
 from .forms import PatientForm
 from django.contrib import messages
 import helpers
@@ -21,3 +25,15 @@ class PatientCreateView(CreateView):
         )
         return super().form_valid(form)
 
+class PatientListView(ListView):
+    queryset = Patient.objects.filter(Status=True).order_by('FirstName')
+    template_name = 'records/patient_list.html'
+    context_object_name = 'patients'
+
+class PatientDetailView(DetailView):
+    template_name = 'records/patient_detail.html'
+
+    def get_object(self):
+        patient_id = self.kwargs['patient_id']
+        self.object = Patient.objects.get(PatientID=patient_id)
+        return self.object

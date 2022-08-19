@@ -178,6 +178,10 @@ class Patient(models.Model):
             self.PatientTypeID = adult
         return super(Patient, self).save(*args, **kwargs)
 
+    @property
+    def getAge(self):
+        return helpers.calculateAge(self.BirthDate)
+
     
 
 class PatientRank(models.Model):

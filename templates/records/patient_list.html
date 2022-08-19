@@ -5,4 +5,34 @@ Patient List
 
 {% block content %}
     <h1>Patient List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Patient ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>BirthDate</th>
+                <th>Occupation</th>
+                <th>Business Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% if patients %}
+                {% for patient in patients %}
+                    <tr>
+                        <td scope="row"><a href="{% url 'patient_detail' patient.PatientID %}">{{patient.PatientID}}</a></td>
+                        <td>{{patient}}</td>
+                        <td>{{patient.GenderID}}</td>
+                        <td>{{patient.BirthDate}}</td>
+                        <td>{{patient.Occupation}}</td>
+                        <td>{{patient.BusinessPhone}}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <p>No Patient Registered
+            {% endif %}
+        </tbody>
+    </table>
+    
 {% endblock content %}

@@ -7,6 +7,7 @@ from .models import (
     PatientRankLevel, PatientCategory
 )
 from datetime import timedelta, date
+import helpers
 # Register your models here.
 
 admin.site.register(Title)
@@ -50,8 +51,6 @@ class PatientAdmin(admin.ModelAdmin):
 
     @admin.display(description='Age')
     def calculate_age(self, obj):
-        dob = obj.BirthDate
-        today = date.today()
-        return str((today - dob) // 360)[0:2]
+        return helpers.calculateAge(obj.BirthDate)
 
 
