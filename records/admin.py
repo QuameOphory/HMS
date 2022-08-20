@@ -4,7 +4,8 @@ from .models import (
     PatientType, Patient, Country, 
     Religion, NextOfKin, IdentificationType,
     PatientIdentification, RelationType, PatientRank,
-    PatientRankLevel, PatientCategory
+    PatientRankLevel, PatientCategory,
+    DependentType
 )
 from datetime import timedelta, date
 import helpers
@@ -23,6 +24,7 @@ admin.site.register(RelationType)
 admin.site.register(PatientRankLevel)
 admin.site.register(PatientRank)
 admin.site.register(PatientCategory)
+admin.site.register(DependentType)
 
 @admin.display(description='Age')
 def calculate_age(obj):
