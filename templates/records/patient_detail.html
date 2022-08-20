@@ -1,9 +1,12 @@
 {% extends 'extras/base.html' %}
+{% load static %}
 {% block title %} {{patient}} - [{{patient.PatientID}}]{% endblock title %}
 
 {% block content %}
-<h4>{{patient}}</h4>
-
+<div id="patient-info-title">
+    <h5 class="d-inline">Patient Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| <a id="edit-patient" href="{% url 'patient_edit' patient.PatientID %}">Edit Patient Record</a></h5>
+</div>
+<div id="patient-info" class="mb-2">
 <table class="table table-borderless">
     <tbody>
         <tr>
@@ -45,6 +48,34 @@
         </tr>
     </tbody>
 </table>
+</div>
+<div id="nextofkin-info-title">
+    <h5 class="d-inline">Next of Kin Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| Add Next Of Kin</h5>
+</div>
 
-
+{% if patient.nextofkin_set.all %}
+    <div id="nextofkin-info">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name of Next of Kin</th>
+                    <th>Relation to Patient</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nextofkin in patient.nextofkin_set.all %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{nextofkin.NextOfKinName}}</td>
+                        <td>{{nextofkin.RelationTypeID}}</td>
+                        <td>{{nextofkin.ContactAddress}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+    
 {% endblock content %}

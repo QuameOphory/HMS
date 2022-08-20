@@ -4,6 +4,7 @@ from django.views.generic import (
     CreateView,
     ListView,
     DetailView,
+    UpdateView
 )
 from .forms import PatientForm
 from django.contrib import messages
@@ -36,4 +37,12 @@ class PatientDetailView(DetailView):
     def get_object(self):
         patient_id = self.kwargs['patient_id']
         self.object = Patient.objects.get(PatientID=patient_id)
+        return self.object
+
+class PatientUpdateView(UpdateView):
+    form_class = PatientForm
+    template_name = 'records/patient_add.html'
+
+    def get_object(self):
+        self.object = Patient.objects.get(PatientID = self.kwargs['patient_id'])
         return self.object

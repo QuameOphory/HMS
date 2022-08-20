@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import helpers
 import datetime
+from django.urls import reverse
 # Create your models here.
 
 LENGTH = 9
@@ -181,6 +182,9 @@ class Patient(models.Model):
     @property
     def getAge(self):
         return helpers.calculateAge(self.BirthDate)
+
+    def get_absolute_url(self):
+        return reverse('patient_detail', kwargs={'patient_id': self.PatientID})
 
     
 

@@ -1,0 +1,32 @@
+#patient-info { 
+    background-color: rgb(229, 214, 192);
+    padding: 20px;
+}
+
+#patient-info-title {
+    background-color: rgb(143, 105, 49);
+    padding: 15px;
+    color: aliceblue;
+}
+
+h5 {
+    margin-bottom: 0px;
+}
+#nextofkin-info-title {
+    background-color: darkslateblue;
+    color: aliceblue;
+    padding: 15px;
+}
+
+#nextofkin-info {
+    background-color: rgb(211, 207, 243);
+}
+
+a#edit-patient {
+    color: white;
+    text-decoration: none;
+}
+
+a#edit-patient:hover {
+    color: pink;
+}
