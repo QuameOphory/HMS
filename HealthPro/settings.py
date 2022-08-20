@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'sponsor.apps.SponsorConfig',
     'facility.apps.FacilityConfig',
     'records.apps.RecordsConfig',
     'django.contrib.admin',
