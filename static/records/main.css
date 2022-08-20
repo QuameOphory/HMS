@@ -17,6 +17,7 @@
 
 body {
     background-color: white;
+    font-family: 'Open Sans', sans-serif;
 }
 h5 {
     margin-bottom: 0px;
@@ -41,13 +42,13 @@ h5 {
     background-color: rgb(245, 244, 244);
 }
 
-a#edit-patient {
+a.edit-info-link {
     color: white;
     text-decoration: none;
 }
 
-a#edit-patient:hover {
-    color: pink;
+a.edit-info-link:hover {
+    color: purple;
 }
 
 #insurance-info-title {
@@ -61,4 +62,8 @@ a#edit-patient:hover {
 .btn-primary {
     background-color: rgb(43, 113, 134);
     border-color: rgb(43, 113, 134);;
+}
+
+label[for*="DELETE"] {
+    color: red;
 }

@@ -26,4 +26,15 @@ class PatientForm(forms.ModelForm):
         
         }
 
-PatientNextOfKinFormSet = forms.inlineformset_factory(Patient, NextOfKin, fields=('NextOfKinID', 'NextOfKinName', 'RelationTypeID', 'ContactAddress',))
+PatientNextOfKinFormSet = forms.inlineformset_factory(
+    Patient, 
+    NextOfKin, 
+    fields=('NextOfKinID', 'NextOfKinName', 'RelationTypeID', 'ContactAddress',), 
+    extra=1,
+    widgets={
+        'NextOfKinID': forms.TextInput(attrs={'class': 'form-control'}),
+        'NextOfKinName': forms.TextInput(attrs={'class': 'form-control'}),
+        'RelationTypeID': forms.Select(attrs={'class': 'form-control'}),
+        'ContactAddress': forms.TextInput(attrs={'class': 'form-control'}),
+    }
+)

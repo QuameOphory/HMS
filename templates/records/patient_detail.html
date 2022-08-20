@@ -4,7 +4,7 @@
 
 {% block content %}
 <div id="patient-info-title">
-    <h5 class="d-inline">Patient Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| <a id="edit-patient" href="{% url 'patient_edit' patient.PatientID %}">Edit Patient Record</a></h5>
+    <h5 class="d-inline">Patient Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| <a class="edit-info-link" href="{% url 'patient_edit' patient.PatientID %}"><i class="fa fa-pencil fa-fw"></i> Edit Patient Record</a></h5>
 </div>
 <div id="patient-info" class="mb-2">
 <table class="table table-borderless">
@@ -50,7 +50,7 @@
 </table>
 </div>
 <div id="nextofkin-info-title" class="mt-2">
-    <h5 class="d-inline">Next of Kin Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| Add Next Of Kin</h5>
+    <h5 class="d-inline">Next of Kin Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| <a class="edit-info-link" href="{% url 'patient_nextofkin_edit' patient.PatientID %}">Add Next Of Kin</a></h5>
 </div>
 
 {% if patient.nextofkin_set.all %}
@@ -71,6 +71,7 @@
                         <td>{{nextofkin.NextOfKinName}}</td>
                         <td>{{nextofkin.RelationTypeID}}</td>
                         <td>{{nextofkin.ContactAddress}}</td>
+                        <td><i class="bi bi-pencil">edit</i></td>
                     </tr>
                 {% endfor %}
             </tbody>

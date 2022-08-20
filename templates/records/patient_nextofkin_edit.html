@@ -1,0 +1,46 @@
+{% extends 'extras/base.html' %}
+{% block title %} Editing Next of Kin for {{patient}} {% endblock title %} Editing Next of Kin for {{patient}} 
+
+{% block content %}
+    <h3>Update Patient Next Of Kin</h3>
+    <form method="post" enctype="multipart/form-data" class="w-50">
+        
+        {% for hidden_field in form.hidden_fields %}
+            {{hidden_field.errors}}
+            {{hidden_field}}
+        {% endfor %}
+        
+        {% csrf_token %}
+
+        {{form.management_form}}
+        {{form.non_form_errors}}
+
+        
+        {% for nextofkin_form in form.forms %}
+            {% comment %} <hr> {% endcomment %}
+            <h5>
+                {% if nextofkin_form.instance.id %}
+                    {{forloop.counter}} {{nextofkin_form.instance.NextOfKinName|title}}
+                {% else %}
+                    
+                    {% if form.forms|length > 1 %}
+                        Add Another Next of Kin
+                    {% else %}
+                        Add a Next of Kin
+                    {% endif %}     
+                {% endif %}   
+            </h5>
+            
+            {% for hidden_field in nextofkin_form.hidden_fields %}
+                {{hidden_field.errors}}
+            {% endfor %}
+            {{nextofkin_form.as_table}}
+        {% endfor %}
+        <hr>
+        <p>
+        <button type="submit" class="btn btn-primary w-100 mb-3" value="Update Next of Kin">Update Next of Kin</button>
+        <a href="{{patient.get_absolute_url}}" role="button" class="btn btn-secondary w-100">Cancel</a>
+        </p>
+    </form>
+        
+{% endblock content %}
