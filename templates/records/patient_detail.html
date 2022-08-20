@@ -49,7 +49,7 @@
     </tbody>
 </table>
 </div>
-<div id="nextofkin-info-title">
+<div id="nextofkin-info-title" class="mt-2">
     <h5 class="d-inline">Next of Kin Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| Add Next Of Kin</h5>
 </div>
 
@@ -72,6 +72,37 @@
                         <td>{{nextofkin.RelationTypeID}}</td>
                         <td>{{nextofkin.ContactAddress}}</td>
                     </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+    
+
+<div id="insurance-info-title" class="my-2">
+    <h5 class="d-inline">Sponsor Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| Add Sponsor</h5>
+</div>
+
+{% if patient.sponsor_set.all %}
+    <div id="sponsor-info">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name of Next of Kin</th>
+                    <th>Relation to Patient</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nextofkin in patient.nextofkin_set.all %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{nextofkin.NextOfKinName}}</td>
+                        <td>{{nextofkin.RelationTypeID}}</td>
+                        <td>{{nextofkin.ContactAddress}}</td>
+                    </tr>
+                    <hr>
                 {% endfor %}
             </tbody>
         </table>

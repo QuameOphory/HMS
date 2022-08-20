@@ -1,25 +1,44 @@
 #patient-info { 
-    background-color: rgb(229, 214, 192);
     padding: 20px;
 }
 
 #patient-info-title {
-    background-color: rgb(143, 105, 49);
+    background-color: rgb(43, 113, 134);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     padding: 15px;
     color: aliceblue;
 }
+#patient-info {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: rgb(245, 244, 244);
+}
 
+body {
+    background-color: white;
+}
 h5 {
     margin-bottom: 0px;
 }
 #nextofkin-info-title {
-    background-color: darkslateblue;
+    background-color: rgb(43, 113, 134);
     color: aliceblue;
     padding: 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 #nextofkin-info {
-    background-color: rgb(211, 207, 243);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: rgb(245, 244, 244);
+}
+
+#sponsor-info {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: rgb(245, 244, 244);
 }
 
 a#edit-patient {
@@ -29,4 +48,17 @@ a#edit-patient {
 
 a#edit-patient:hover {
     color: pink;
+}
+
+#insurance-info-title {
+    background-color: rgb(43, 113, 134);
+    padding: 15px;
+    color: aliceblue;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.btn-primary {
+    background-color: rgb(43, 113, 134);
+    border-color: rgb(43, 113, 134);;
 }

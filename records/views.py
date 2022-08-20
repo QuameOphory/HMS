@@ -4,8 +4,10 @@ from django.views.generic import (
     CreateView,
     ListView,
     DetailView,
-    UpdateView
+    UpdateView,
+    FormView,
 )
+from django.views.generic.detail import SingleObjectMixin
 from .forms import PatientForm
 from django.contrib import messages
 import helpers
@@ -46,3 +48,19 @@ class PatientUpdateView(UpdateView):
     def get_object(self):
         self.object = Patient.objects.get(PatientID = self.kwargs['patient_id'])
         return self.object
+
+
+class PatientNextOfKinEditView(SingleObjectMixin, FormView):
+    template_name = 'records/patient_nextofkin_edit.html'
+
+    def get_object(self):
+        patient = Patient.objects.get(PatientID = self.kwargs['patient_id'])
+        return patient
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)

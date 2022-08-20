@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient
+from .models import Patient, NextOfKin
 
 class PatientForm(forms.ModelForm):
     
@@ -24,6 +24,6 @@ class PatientForm(forms.ModelForm):
             'ResidencePhone': forms.TextInput(attrs={'class': 'form-control'}),
             'ResidenceAddress': forms.TextInput(attrs={'class': 'form-control'}),
         
-
-
         }
+
+PatientNextOfKinFormSet = forms.inlineformset_factory(Patient, NextOfKin, fields=('NextOfKinID', 'NextOfKinName', 'RelationTypeID', 'ContactAddress',))
