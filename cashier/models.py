@@ -88,8 +88,8 @@ class Invoice(models.Model):
         verbose_name_plural = _("Invoices")
 
     def __str__(self):
-        return self.name
+        return self.InvoiceID
 
     def get_absolute_url(self):
-        return reverse("Invoice_detail", kwargs={"pk": self.pk})
+        return reverse("invoice_detail", kwargs={"invoice_id": self.InvoiceID})
 
