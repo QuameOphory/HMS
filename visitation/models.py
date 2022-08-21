@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from facility.models import Branch
 from records.models import Patient
 from sponsor.models import BillingAccount
+from billing.models import BillGroup
 import helpers
 
 # Create your models here.
@@ -57,7 +58,7 @@ class ConsultationType(models.Model):
     ConsultationTypeID = models.CharField(_("Consultation Type ID"), max_length=250)
     ConsultationTypeName = models.CharField(_("Consultation Type Name"), max_length=250)
     Department = models.ForeignKey(HospitalDepartment, verbose_name=_("Department"), on_delete=models.CASCADE)
-    #BillGroupID = models.ForeignKey(BillGroup, verbose_name=_(""), on_delete=models.CASCADE)
+    BillGroupID = models.ForeignKey(BillGroup, verbose_name=_(""), on_delete=models.CASCADE)
     CashConsultationFee = models.DecimalField(_("Cash Cons. Fee"), max_digits=5, decimal_places=2)
     RegistrationFee = models.DecimalField(_("Registration Fee"), max_digits=5, decimal_places=2, blank=True, null=True)
     ReviewFee = models.DecimalField(_("Review Fee"), max_digits=5, decimal_places=2, default=0.00, blank=True)
