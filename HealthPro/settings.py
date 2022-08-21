@@ -32,9 +32,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #HMS apps
+    'visitation.apps.VisitationConfig',
     'sponsor.apps.SponsorConfig',
     'facility.apps.FacilityConfig',
     'records.apps.RecordsConfig',
+    #django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
