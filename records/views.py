@@ -44,6 +44,7 @@ class PatientDetailView(DetailView):
         self.object = Patient.objects.get(PatientID=patient_id)
         return self.object
 
+
 class PatientUpdateView(UpdateView):
     form_class = PatientForm
     template_name = 'records/patient_add.html'

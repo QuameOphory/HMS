@@ -9,7 +9,7 @@
     padding: 15px;
     color: aliceblue;
 }
-#patient-info {
+div.info {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     background-color: rgb(245, 244, 244);
@@ -30,11 +30,11 @@ h5 {
     border-top-right-radius: 5px;
 }
 
-#nextofkin-info {
+/* #nextofkin-info {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     background-color: rgb(245, 244, 244);
-}
+} */
 
 #sponsor-info {
     border-bottom-left-radius: 5px;

@@ -6,7 +6,7 @@
 <div id="patient-info-title">
     <h5 class="d-inline">Patient Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| <a class="edit-info-link" href="{% url 'patient_edit' patient.PatientID %}"><i class="fa fa-pencil fa-fw"></i> Edit Patient Record</a></h5>
 </div>
-<div id="patient-info" class="mb-2">
+<div class="info" class="mb-2">
 <table class="table table-borderless">
     <tbody>
         <tr>
@@ -54,7 +54,7 @@
 </div>
 
 {% if patient.nextofkin_set.all %}
-    <div id="nextofkin-info">
+    <div class="info">
         <table class="table table-borderless">
             <thead>
                 <tr>
@@ -79,31 +79,23 @@
     </div>
 {% endif %}
     
-
-<div id="insurance-info-title" class="my-2">
-    <h5 class="d-inline">Sponsor Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| Add Sponsor</h5>
+<div id="insurance-info-title" class="mt-2">
+    <h5 class="d-inline">Billing Account Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| Add Billing Account</h5>
 </div>
 
-{% if patient.sponsor_set.all %}
-    <div id="sponsor-info">
+{% if patient.billingaccount_set.all %}
+    <div class="info">
         <table class="table table-borderless">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name of Next of Kin</th>
-                    <th>Relation to Patient</th>
-                    <th>Address</th>
-                </tr>
-            </thead>
             <tbody>
-                {% for nextofkin in patient.nextofkin_set.all %}
+                {% for billing_account in patient.billingaccount_set.all %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td>{{nextofkin.NextOfKinName}}</td>
-                        <td>{{nextofkin.RelationTypeID}}</td>
-                        <td>{{nextofkin.ContactAddress}}</td>
+                        <td>{{billing_account.BillingAccountName}}</td>
+                        <td>{{billing_account.InsuranceSchemeID}}</td>
+                        <td>{{billing_account.RelationTypeID}}</td>
+                        <td>{{billing_account.InsuranceNumber}}</td>
+                        <td>{{billing_account.SponsorStatusID}}</td>
                     </tr>
-                    <hr>
                 {% endfor %}
             </tbody>
         </table>
