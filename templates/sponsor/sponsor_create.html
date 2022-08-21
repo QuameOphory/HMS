@@ -1,0 +1,13 @@
+{% extends 'extras/base.html' %}
+{% block title %} Billing Account - Create {% endblock title %}
+
+{% block content %}
+
+<form method='post'>
+{% csrf_token %}
+{{form}}
+<button type="submit">Add Billing Account</button>
+</form>
+
+{% endblock content %}
+

@@ -29,6 +29,13 @@ h5 {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
+.add-visit {
+    background-color: rgb(138, 178, 190);
+    color: rgb(0, 0, 0);
+    padding: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
 
 /* #nextofkin-info {
     border-bottom-left-radius: 5px;

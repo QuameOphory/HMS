@@ -86,16 +86,53 @@
 {% if patient.billingaccount_set.all %}
     <div class="info">
         <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Sponsor</th>
+                    <th>Scheme</th>
+                    <th>Type</th>
+                    <th>Scheme No.</th>
+                    <th>Status</th>
+                    <th>Expiry Date</th>
+                    <th>Entry Date</th>
+                </tr>
+            </thead>
             <tbody>
                 {% for billing_account in patient.billingaccount_set.all %}
-                    <tr>
+                    <tr class='billing-info'>
                         <td>{{forloop.counter}}</td>
-                        <td>{{billing_account.BillingAccountName}}</td>
+                        <td>{{billing_account.InsuranceSchemeID.SponsorID}}</td>
                         <td>{{billing_account.InsuranceSchemeID}}</td>
                         <td>{{billing_account.RelationTypeID}}</td>
-                        <td>{{billing_account.InsuranceNumber}}</td>
-                        <td>{{billing_account.SponsorStatusID}}</td>
+                        <td>{{billing_account.BillingAccountID}}</td>
+                        <td
+                            
+                            {% if billing_account.SponsorStatusID.id == 1 %}
+                                class="text-success"
+                            {% else %}
+                                class="text-danger"
+                            {% endif %}
+                                
+                        >
+                            {{billing_account.SponsorStatusID}}
+                        </td>
+                        <td>{{billing_account.ExpiryDate|date:'l, F j, Y'}}</td>
+                        <td>{{billing_account.CreatedAt|date:'l, F j, Y'}}</td>
                     </tr>
+                    
+                    {% if billing_account.SponsorStatusID.id == 1 %}
+                        <tr class="add-visit">
+                            <td></td>
+                            <td>Visit/Attendance</td>
+                            <td>Add Visit</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
