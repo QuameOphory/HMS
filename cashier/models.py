@@ -78,7 +78,8 @@ class Invoice(models.Model):
     '''
     InvoiceID = models.CharField(_("Invoice No."), max_length=250)
     InvoiceName = models.CharField(_("Invoice Name"), max_length=250)
-    ReceiptAmount = models.DecimalField(_("Payment Amount"), max_digits=5, decimal_places=2)
+    InvoiceAmount = models.DecimalField(_("Payment Amount"), max_digits=5, decimal_places=2)
+    InvoiceDate = models.DateField(_("Date of Invoice"), default=timezone.now)
     Description = models.TextField(_("Description"), blank=True, null=True)
     CreatedAt = models.DateField(_("Created At"), auto_now_add=True)
     Status = models.BooleanField(_("Status"), default=True, editable=False)
