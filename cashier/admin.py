@@ -1,4 +1,3 @@
-from msilib.schema import AdvtExecuteSequence
 from django.contrib import admin
 from .models import Receipt, Invoice, PaymentMode, PaymentType 
 # Register your models here.
@@ -42,5 +41,4 @@ class ReceiptAdmin(admin.ModelAdmin):
     list_display = ('ReceiptID', 'PatientID', 'PaymentTypeID', 'PaymentModeID', 'ReceiptAmount', 'ReceiptDate')
     list_filter = ('ReceiptID',)
     readonly_fields = ('ReceiptID',)
-    search_fields = ('ReceiptID', 'PatientID')
-    ordering = ('-Receipt', 'onglou')
+    search_fields = ('ReceiptID', 'PatientID',)
