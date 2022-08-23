@@ -5,7 +5,22 @@
 
 <form method='post'>
 {% csrf_token %}
-{{form}}
+
+<table class="table table-borderless" style="width: 40%;">
+{% for field in form %}
+<tr>
+    <td colspan="2">
+    {{field.errors}}
+    </td>
+</tr>
+<tr>
+    <td>{{field.label}} </td>
+    <td>{{field}}</td>
+</tr>
+{% endfor %}
+</table>
+    
+
 <button type="submit">Add Billing Account</button>
 </form>
 

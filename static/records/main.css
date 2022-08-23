@@ -66,6 +66,14 @@ a.edit-info-link:hover {
     border-top-right-radius: 5px;
 }
 
+#visit-info-title {
+    background-color: rgb(43, 113, 134);
+    padding: 15px;
+    color: aliceblue;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
 .btn-primary {
     background-color: rgb(43, 113, 134);
     border-color: rgb(43, 113, 134);;

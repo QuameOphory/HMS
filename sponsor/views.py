@@ -12,7 +12,7 @@ from django.views.generic import (
 class BillingAccountCreateView(CreateView):
     model = BillingAccount
     form_class = BillingAccountForm
-    template_name = 'sponsor/sponsor_create.html'
+    template_name = 'sponsor/sponsor_add.html'
 
     def get(self, request, *args, **kwargs):
         self.patient_id = self.kwargs['patient_id']

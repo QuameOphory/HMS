@@ -80,7 +80,12 @@
 {% endif %}
     
 <div id="insurance-info-title" class="mt-2">
-    <h5 class="d-inline">Billing Account Information&nbsp;&nbsp;&nbsp;</h5> <h5 class="d-inline">| Add Billing Account</h5>
+    <h5 class="d-inline">Billing Account Information&nbsp;&nbsp;&nbsp;</h5> 
+    <h5 class="d-inline">| <a class="edit-info-link" href="{% url 'sponsor_add' patient.PatientID %}">
+        <i class="fa-solid fa-wallet fa-fw"></i>
+        Add Billing Account
+        </a>
+    </h5>
 </div>
 
 {% if patient.billingaccount_set.all %}
@@ -120,19 +125,15 @@
                         <td>{{billing_account.ExpiryDate|date:'l, F j, Y'}}</td>
                         <td>{{billing_account.CreatedAt|date:'l, F j, Y'}}</td>
                     </tr>
-                    
-                    {% if billing_account.SponsorStatusID.id == 1 %}
-                        <tr class="w-70 mx-auto add-visit">
-                            <td></td>
-                            <td>Visit/Attendance</td>
-                            <td>Add Visit</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    {% endif %}
+                    <tr>
+                        <td></td>
+                        {% comment %} <td></td> {% endcomment %}
+                        <td colspan="7">
+                            <table class="table table-borderless">
+                                <th>Visit Information &nbsp;&nbsp;&nbsp; | Add New Visit</th>
+                            </table>
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
