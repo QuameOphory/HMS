@@ -21,5 +21,5 @@ urlpatterns = [
     path('', include('facility.urls')),
     path('patient/', include('records.urls')),
     path('sponsor/', include('sponsor.urls')),
-    path('visitation/', include('visitation.urls'))
+    path('visitation/', include('visitation.urls')),
 ]
