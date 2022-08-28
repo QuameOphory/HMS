@@ -103,7 +103,7 @@ class Visitation(models.Model):
     '''Model definition for visitations / hospital attendance'''
     VisitationID = models.CharField(_("Visitation ID"), max_length=250)
     VisitationName = models.CharField(_("Visitation Name"), max_length=250)
-    VisitStatusID = models.ForeignKey(VisitStatus, verbose_name=_("Status"), on_delete=models.CASCADE)
+    VisitStatusID = models.ForeignKey(VisitStatus, verbose_name=_("Status"), on_delete=models.SET_NULL, null=True)
     PatientID = models.ForeignKey(Patient, verbose_name=_("Patient"), on_delete=models.CASCADE)
     VisitTypeID = models.ForeignKey(VisitType, verbose_name=_("Visit Type"), on_delete=models.SET_NULL, null=True)
     HospitalDepartmentID = models.ForeignKey(HospitalDepartment, verbose_name=_("Department"), on_delete=models.SET_NULL, null=True)

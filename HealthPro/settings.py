@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'sponsor.apps.SponsorConfig',
     'facility.apps.FacilityConfig',
     'records.apps.RecordsConfig',
+    #third party packages
+    #
+    'crispy_forms',
     #django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
