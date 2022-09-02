@@ -3,18 +3,22 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from facility.models import Department
 from billing.models import BillGroup
-
+import helpers
 
 # Create your models here.
+
+def generateConsultationTypeID():
+    qs = ConsultationType.objects.all()
+    return helpers.generateID('C', qs=qs, length=7)
 
 
 class ConsultationType(models.Model):
 
-    ConsultationTypeID = models.CharField(_("Consultation Type ID"), max_length=250)
+    ConsultationTypeID = models.CharField(_("Consultation Type ID"), max_length=250, default=generateConsultationTypeID)
     ConsultationTypeName = models.CharField(_("Consultation Type"), max_length=250)
     DepartmentID = models.ForeignKey(Department, verbose_name=_("Department"), on_delete=models.SET_NULL, null=True)
-    BillGroupID = models.ForeignKey(BillGroup, verbose_name=_(""), on_delete=models.CASCADE)
-    CashConsultationFee = models.DecimalField(_("Cash Cons. Fee"), max_digits=5, decimal_places=2)
+    BillGroupID = models.ForeignKey(BillGroup, verbose_name=_(""), on_delete=models.SET_NULL, null=True, editable=False)
+    CashConsultationFee = models.DecimalField(_("Cash Cons. Fee"), max_digits=5, decimal_places=2, blank=True, null=True)
     RegistrationFee = models.DecimalField(_("Registration Fee"), max_digits=5, decimal_places=2, blank=True, null=True)
     ReviewFee = models.DecimalField(_("Review Fee"), max_digits=5, decimal_places=2, default=0.00, blank=True)
     Description = models.TextField(_("Desccription"), blank=True, null=True, editable=False)
