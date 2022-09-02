@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     #HMS apps
+    'consultation.apps.ConsultationConfig',
     'cashier.apps.CashierConfig',
     'billing.apps.BillingConfig',
     'visitation.apps.VisitationConfig',

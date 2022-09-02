@@ -234,8 +234,6 @@ class InsuranceScheme(models.Model):
         return reverse("insurance_scheme_detail", kwargs={"insurance_scheme_id": self.InsuranceSchemeID})
 
 
-
-
 class BillingAccount(models.Model): #insuredpatient
     MainAccountHolderID = models.ForeignKey(MainAccountHolder, verbose_name=_("Main Bill Account"), on_delete=models.SET_NULL, null=True, default=2)
     #if the sponsor account of the patient is not cash and the patient is an adult, insert record into MainAccountHolder table

@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from records.models import Patient
 from django.utils import timezone
+from facility.models import Department
 # Create your models here.
 
 class PaymentType(models.Model):
@@ -50,8 +51,8 @@ class Receipt(models.Model):
     Model definition for Receipts
     '''
     ReceiptID = models.CharField(_("Receipt No."), max_length=250)
-    ManualReceiptID = models.CharField(_("Manual Receipt No."), max_length=250)
-    ReceiptName = models.CharField(_("Receipt Name"), max_length=250)
+    ManualReceiptID = models.CharField(_("Manual Receipt No."), max_length=250, blank=True, null=True)
+    ReceiptName = models.CharField(_("Receipt Name"), max_length=250, blank=True, null=True, editable=False)
     PatientID = models.ForeignKey(Patient, verbose_name=_("Patient"), on_delete=models.CASCADE)
     PaymentTypeID = models.ForeignKey(PaymentType, verbose_name=_("Payment Type"), on_delete=models.SET_NULL, null=True)
     PaymentModeID = models.ForeignKey(PaymentMode, verbose_name=_("Payment Mode"), on_delete=models.SET_NULL, null=True)
@@ -77,8 +78,10 @@ class Invoice(models.Model):
     Model definition for invoices
     '''
     InvoiceID = models.CharField(_("Invoice No."), max_length=250)
-    InvoiceName = models.CharField(_("Invoice Name"), max_length=250)
+    InvoiceName = models.CharField(_("Invoice Name"), max_length=250, blank=True, null=True, editable=False)
     InvoiceAmount = models.DecimalField(_("Payment Amount"), max_digits=5, decimal_places=2)
+    DepartmentID = models.ForeignKey(Department, verbose_name=_("Issuing From"), on_delete=models.SET_NULL, null=True)
+    PatientID = models.ForeignKey(Patient, verbose_name=_("Invoice For"), on_delete=models.CASCADE)
     InvoiceDate = models.DateField(_("Date of Invoice"), default=timezone.now)
     Description = models.TextField(_("Description"), blank=True, null=True)
     CreatedAt = models.DateField(_("Created At"), auto_now_add=True)
