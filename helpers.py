@@ -25,7 +25,7 @@ def generateVisitationID(qs, prefix='V'):
     year = str(today.year)[-2:] #last 2 digits of current year
     month = str(today.month).zfill(2) # if month is single character, prefix with 0
     day = str(today.day).zfill(2) # if day is single character, prefix with 0
-    prefix = year + month + day
+    prefix = prefix + year + month + day
     if qs.count() == 0:
         id_post_fix = '001'
         visitationID = prefix + id_post_fix

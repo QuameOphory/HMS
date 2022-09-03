@@ -131,6 +131,22 @@
                         <td colspan="7">
                             <table class="table table-borderless">
                                 <th>Visit Information &nbsp;&nbsp;&nbsp; | Add New Visit</th>
+                                <tbody>
+                                    
+                                    {% if billing_account.visitation_set.all %}
+                                    <tr>
+                                        <td><b>Visit ID</b></td><td><b>Visit Type</b></td><td><b>Consultation Type</b></td><td><b>Visit Status</b></td><td><b>Visit Date</b></td>
+                                    </tr>    
+                                    
+                                    {% for visit in billing_account.visitation_set.all %}
+                                        <tr>
+                                        <td>{{visit.VisitationID}}</td><td>{{visit.VisitTypeID}}</td><td>{{visit.ConsultationTypeID}}</td><td>{{visit.VisitStatusID}}</td><td>{{visit.VisitDate|date:'l, F j, Y'}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                                        
+                                    {% endif %}
+                    
+                                </tbody>
                             </table>
                         </td>
                     </tr>

@@ -4,13 +4,30 @@ from django.urls import reverse
 from records.models import Patient
 from django.utils import timezone
 from facility.models import Department
+import helpers
 # Create your models here.
+
+def generateInvoiceID():
+    qs = Invoice.objects.all()
+    return helpers.generateID('I', qs=qs, length=7)
+
+def generateReceiptID():
+    qs = Receipt.objects.all()
+    return helpers.generateID('R', qs=qs, length=7)
+
+def generatePaymentTypeID():
+    qs = PaymentType.objects.all()
+    return helpers.generateID('P', qs=qs, length=4)
+
+def generatePaymentModeID():
+    qs = PaymentMode.objects.all()
+    return helpers.generateID('P', qs=qs, length=4)
 
 class PaymentType(models.Model):
     '''
     Model definition for Payment Types: eg: deposit, OPD, Lab, etc
     '''
-    PaymentTypeID = models.CharField(_("Payment Type"), max_length=250)
+    PaymentTypeID = models.CharField(_("Payment Type"), max_length=250, default=generatePaymentTypeID)
     PaymentTypeName = models.CharField(_("Payment Type Name"), max_length=250)
     Description = models.TextField(_("Description"), blank=True, null=True)
     CreatedAt = models.DateField(_("Created At"), auto_now_add=True)
@@ -28,7 +45,7 @@ class PaymentType(models.Model):
 
 class PaymentMode(models.Model):
 
-    PaymentModeID = models.CharField(_("Payment Mode ID"), max_length=250)
+    PaymentModeID = models.CharField(_("Payment Mode ID"), max_length=250, default=generatePaymentModeID)
     PaymentModeName = models.CharField(_("Payment Mode"), max_length=250)
     Description = models.TextField(_("Description"), blank=True, null=True)
     CreatedAt = models.DateField(_("Created At"), auto_now_add=True)
@@ -50,7 +67,7 @@ class Receipt(models.Model):
     '''
     Model definition for Receipts
     '''
-    ReceiptID = models.CharField(_("Receipt No."), max_length=250)
+    ReceiptID = models.CharField(_("Receipt No."), max_length=250, default=generateReceiptID)
     ManualReceiptID = models.CharField(_("Manual Receipt No."), max_length=250, blank=True, null=True)
     ReceiptName = models.CharField(_("Receipt Name"), max_length=250, blank=True, null=True, editable=False)
     PatientID = models.ForeignKey(Patient, verbose_name=_("Patient"), on_delete=models.CASCADE)
@@ -77,7 +94,7 @@ class Invoice(models.Model):
     '''
     Model definition for invoices
     '''
-    InvoiceID = models.CharField(_("Invoice No."), max_length=250)
+    InvoiceID = models.CharField(_("Invoice No."), max_length=250, default=generateInvoiceID)
     InvoiceName = models.CharField(_("Invoice Name"), max_length=250, blank=True, null=True, editable=False)
     InvoiceAmount = models.DecimalField(_("Payment Amount"), max_digits=5, decimal_places=2)
     DepartmentID = models.ForeignKey(Department, verbose_name=_("Issuing From"), on_delete=models.SET_NULL, null=True)

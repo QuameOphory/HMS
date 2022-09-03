@@ -6,18 +6,25 @@ from records.models import Patient
 from sponsor.models import BillingAccount
 from consultation.models import ConsultationType
 from cashier.models import Receipt
-
 import helpers
 
 # Create your models here.
+
+def generateVisitTypeID():
+    qs = VisitType.objects.all()
+    return helpers.generateID('V', qs=qs, length=4)
+
+def generateVisitStatusID():
+    qs = VisitStatus.objects.all()
+    return helpers.generateID('V', qs=qs, length=4)
 
 class VisitType(models.Model):
     '''
     Model definition for types of Visitations: First time, Subsequent, Review, Emergency
     '''
-    VisitTypeID = models.CharField(_("Visit Type ID"), max_length=250)
+    VisitTypeID = models.CharField(_("Visit Type ID"), max_length=250, default=generateVisitTypeID)
     VisitTypeName = models.CharField(_("Visit Type"), max_length=50)
-    VisitTypeCost = models.DecimalField(_("Visit Type Cost"), max_digits=5, decimal_places=2)
+    VisitTypeCost = models.DecimalField(_("Visit Type Cost"), max_digits=5, decimal_places=2, default=0.00)
     Description = models.TextField(_("Desccription"), blank=True, null=True, editable=False)
     Status = models.BooleanField(_("Status of Visit Type"), default=True, editable=False)
     CreatedAt = models.DateField(_("Created At"), auto_now_add=True)
@@ -27,16 +34,15 @@ class VisitType(models.Model):
         verbose_name_plural = _("Visit Types")
 
     def __str__(self):
-        return self.name
+        return self.VisitTypeName
 
     def get_absolute_url(self):
         return reverse("visit_type_detail", kwargs={"visit_type_id": self.VisitTypeID})
 
 class VisitStatus(models.Model):
     '''Model definition for status of visitation: unattended, diagnosed, etc'''
-    VisitStatusID = models.CharField(_("Visit Status ID"), max_length=250)
-    VisitStatusName = models.CharField(_("Visit Status Name"), max_length=250, editable=False)
-    ManualVisitNumber = models.CharField(_("Manual Visit Number"), max_length=250)
+    VisitStatusID = models.CharField(_("Visit Status ID"), max_length=250, default=generateVisitStatusID)
+    VisitStatusName = models.CharField(_("Visit Status Name"), max_length=250)
     Description = models.TextField(_("Desccription"), blank=True, null=True, editable=False)
     Status = models.BooleanField(_("Status of Visit Type"), default=True, editable=False)
     CreatedAt = models.DateField(_("Created At"), auto_now_add=True)
@@ -59,8 +65,8 @@ def generateVisitationID():
 
 class Visitation(models.Model):
     '''Model definition for visitations / hospital attendance'''
-    VisitationID = models.CharField(_("Visitation ID"), max_length=250, default=True, unique=True)
-    VisitationName = models.CharField(_("Visitation Name"), max_length=250, blank=True, editable=False)
+    VisitationID = models.CharField(_("Visitation ID"), max_length=250, default=generateVisitationID, unique=True)
+    VisitationName = models.CharField(_("Visitation Name"), max_length=250, blank=True, editable=False, null=True)
     VisitStatusID = models.ForeignKey(VisitStatus, verbose_name=_("Status"), on_delete=models.SET_NULL, null=True)
     PatientID = models.ForeignKey(Patient, verbose_name=_("Patient"), on_delete=models.CASCADE)
     VisitTypeID = models.ForeignKey(VisitType, verbose_name=_("Visit Type"), on_delete=models.SET_NULL, null=True)
@@ -81,7 +87,7 @@ class Visitation(models.Model):
         verbose_name_plural = _("Visitations")
 
     def __str__(self):
-        return self.VisitationName
+        return f'{self.PatientID} -- [{self.VisitationID}]'
 
     def get_absolute_url(self):
         return reverse("visitation_detail", kwargs={"visitation_id": self.VisitationID})
